@@ -176,6 +176,36 @@ Abrir [http://localhost:3000](http://localhost:3000)
 
 ---
 
+## Fichas Temáticas
+
+Además de las skins clásicas, el juego soporta fichas temáticas con modelos 3D reales. Los modelos `.glb` se cargan con `useGLTF` de `@react-three/drei`:
+
+```tsx
+import { useGLTF } from '@react-three/drei'
+
+function MyPieceModel({ url }: { url: string }) {
+  const { scene } = useGLTF(url)
+  return <primitive object={scene} scale={0.8} />
+}
+```
+
+Cada modelo se coloca en `frontend/public/models/` y se referencia desde `PIECE_SKINS` en `constants.ts`.
+
+### Sets disponibles
+
+| Set | Piezas | Precio | Descripción |
+|-----|--------|--------|-------------|
+| **Pokémon** | Pikachu vs Charmander | 500 | Modelos low-poly CC0 |
+| **Mario** | Mario vs Bowser | 500 | Modelos inspirados en el fontanero |
+| **Zelda** | Link vs Ganon | 500 | Héroes y villanos de Hyrule |
+| **Autos** | Muscle vs Sport | 450 | Autos low-poly (Quaternius CC0) |
+| **Espacio** | Alien vs Astronauta | 550 | Modelos del Ultimate Space Kit |
+| **Fantasía** | Dragón vs Mago | 550 | Criaturas místicas low-poly |
+| **Animales** | Perro vs Gato | 400 | Mascotas en 3D |
+| **Comida** | Pizza vs Donut | 350 | Comida chibi en 3D |
+
+---
+
 ## Características
 
 - 🎮 **PvE, PvP Local y Online** — Tres modos de juego
