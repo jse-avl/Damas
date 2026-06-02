@@ -175,4 +175,36 @@ export const PIECE_SKINS: Record<string, Skin> = {
     id: '36', name: 'Fénix', price: 500, type: 'piece', model: '/models/phoenix.glb',
     config: { metalness: 0.5, roughness: 0.3, emissiveIntensity: 0.15, clearcoat: 0.5 }
   },
+  pokemon: {
+    id: '37', name: 'Pokémon', price: 500, type: 'piece',
+    config: { metalness: 0.3, roughness: 0.5, emissiveIntensity: 0.15 }
+  },
+  mario_bowser: {
+    id: '38', name: 'Mario', price: 500, type: 'piece',
+    config: { metalness: 0.4, roughness: 0.4, emissiveIntensity: 0.1 }
+  },
+  link_ganon: {
+    id: '39', name: 'Zelda', price: 500, type: 'piece',
+    config: { metalness: 0.5, roughness: 0.3, emissiveIntensity: 0.1 }
+  },
+  muscle_sport: {
+    id: '40', name: 'Autos', price: 450, type: 'piece',
+    config: { metalness: 0.6, roughness: 0.3, emissiveIntensity: 0.1 }
+  },
+  alien_astronaut: {
+    id: '41', name: 'Espacio', price: 550, type: 'piece',
+    config: { metalness: 0.7, roughness: 0.2, emissiveIntensity: 0.2 }
+  },
+  dragon_mage: {
+    id: '42', name: 'Fantasía', price: 550, type: 'piece',
+    config: { metalness: 0.5, roughness: 0.4, emissiveIntensity: 0.15 }
+  },
+  dog_cat: {
+    id: '43', name: 'Animales', price: 400, type: 'piece',
+    config: { metalness: 0.2, roughness: 0.6, emissiveIntensity: 0.1 }
+  },
+  pizza_donut: {
+    id: '44', name: 'Comida', price: 350, type: 'piece',
+    config: { metalness: 0.0, roughness: 0.8, emissiveIntensity: 0.05 }
+  },
 }

@@ -489,6 +489,470 @@ function RobotPiece({ color, isRed, isSelected, pieceHeight }: {
   )
 }
 
+function PikachuCharmanderPiece({ color, isRed, isSelected, pieceHeight }: {
+  color: string; isRed: boolean; isSelected: boolean; pieceHeight: number
+}) {
+  const groupRef = useRef<THREE.Group>(null)
+  useFrame((_, delta) => {
+    if (groupRef.current && isSelected) groupRef.current.rotation.y += delta * 0.5
+  })
+  const s = pieceHeight * 0.5
+  const bodyMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: isRed ? '#ffde21' : '#f57c00', metalness: 0.2, roughness: 0.5,
+    emissive: isSelected ? '#c9a84c' : (isRed ? '#ffde21' : '#f57c00'), emissiveIntensity: isSelected ? 0.4 : 0.05,
+  }), [isRed, isSelected])
+  const darkMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: isRed ? '#8a6a20' : '#6a4040', metalness: 0.3, roughness: 0.6,
+  }), [isRed])
+  const earMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: isRed ? '#ffde21' : '#f57c00', metalness: 0.1, roughness: 0.6,
+  }), [isRed])
+  const eyeMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#222', metalness: 0.1, roughness: 0.3,
+  }), [])
+  const cheekMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#ff4466', metalness: 0.1, roughness: 0.3,
+    emissive: '#ff4466', emissiveIntensity: 0.2,
+  }), [])
+  return (
+    <group ref={groupRef}>
+      {/* Body */}
+      <mesh position={[0, 0.06 * s, 0]}><sphereGeometry args={[0.1 * s, 12, 12]} /><meshPhysicalMaterial {...bodyMat} /></mesh>
+      {/* Ears */}
+      <mesh position={[-0.07 * s, 0.15 * s, 0]} rotation={[0, 0, -0.3]}><coneGeometry args={[0.02 * s, 0.07 * s, 6]} /><meshPhysicalMaterial {...earMat} /></mesh>
+      <mesh position={[0.07 * s, 0.15 * s, 0]} rotation={[0, 0, 0.3]}><coneGeometry args={[0.02 * s, 0.07 * s, 6]} /><meshPhysicalMaterial {...earMat} /></mesh>
+      {/* Ear tips */}
+      <mesh position={[-0.07 * s, 0.19 * s, 0]}><sphereGeometry args={[0.008 * s, 6, 6]} /><meshPhysicalMaterial color="#222" metalness={0.1} roughness={0.5} /></mesh>
+      <mesh position={[0.07 * s, 0.19 * s, 0]}><sphereGeometry args={[0.008 * s, 6, 6]} /><meshPhysicalMaterial color="#222" metalness={0.1} roughness={0.5} /></mesh>
+      {/* Eyes */}
+      <mesh position={[-0.04 * s, 0.08 * s, 0.09 * s]}><sphereGeometry args={[0.015 * s, 8, 8]} /><meshPhysicalMaterial {...eyeMat} /></mesh>
+      <mesh position={[0.04 * s, 0.08 * s, 0.09 * s]}><sphereGeometry args={[0.015 * s, 8, 8]} /><meshPhysicalMaterial {...eyeMat} /></mesh>
+      {/* Eye highlights */}
+      <mesh position={[-0.035 * s, 0.09 * s, 0.1 * s]}><sphereGeometry args={[0.005 * s, 6, 6]} /><meshBasicMaterial color="#fff" /></mesh>
+      <mesh position={[0.045 * s, 0.09 * s, 0.1 * s]}><sphereGeometry args={[0.005 * s, 6, 6]} /><meshBasicMaterial color="#fff" /></mesh>
+      {/* Cheeks */}
+      <mesh position={[-0.06 * s, 0.04 * s, 0.09 * s]}><sphereGeometry args={[0.012 * s, 8, 8]} /><meshPhysicalMaterial {...cheekMat} /></mesh>
+      <mesh position={[0.06 * s, 0.04 * s, 0.09 * s]}><sphereGeometry args={[0.012 * s, 8, 8]} /><meshPhysicalMaterial {...cheekMat} /></mesh>
+      {/* Nose */}
+      <mesh position={[0, 0.06 * s, 0.1 * s]}><sphereGeometry args={[0.006 * s, 6, 6]} /><meshPhysicalMaterial color="#222" metalness={0.1} roughness={0.3} /></mesh>
+      {/* Mouth */}
+      <mesh position={[0, 0.035 * s, 0.1 * s]}><boxGeometry args={[0.02 * s, 0.004 * s, 0.004 * s]} /><meshPhysicalMaterial color="#222" metalness={0.1} roughness={0.3} /></mesh>
+      {/* Tail (Charmander) */}
+      {!isRed && <mesh position={[-0.12 * s, 0.02 * s, 0]} rotation={[0, 0, 0.5]}><coneGeometry args={[0.015 * s, 0.08 * s, 6]} /><meshPhysicalMaterial {...bodyMat} /></mesh>}
+      {!isRed && <mesh position={[-0.16 * s, 0.06 * s, 0]}><sphereGeometry args={[0.012 * s, 6, 6]} /><meshPhysicalMaterial color="#ff6600" emissive="#ff4400" emissiveIntensity={0.5} metalness={0.1} roughness={0.5} /></mesh>}
+      {/* Base */}
+      <mesh position={[0, -0.02 * s, 0]}><cylinderGeometry args={[0.08 * s, 0.1 * s, 0.02 * s, 8]} /><meshPhysicalMaterial {...darkMat} /></mesh>
+    </group>
+  )
+}
+
+function MarioBowserPiece({ color, isRed, isSelected, pieceHeight }: {
+  color: string; isRed: boolean; isSelected: boolean; pieceHeight: number
+}) {
+  const groupRef = useRef<THREE.Group>(null)
+  useFrame((_, delta) => {
+    if (groupRef.current && isSelected) groupRef.current.rotation.y += delta * 0.5
+  })
+  const s = pieceHeight * 0.5
+  const bodyMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: isRed ? '#e53935' : '#2e7d32', metalness: 0.3, roughness: 0.5,
+    emissive: isSelected ? '#c9a84c' : (isRed ? '#e53935' : '#2e7d32'), emissiveIntensity: isSelected ? 0.3 : 0.05,
+  }), [isRed, isSelected])
+  const skinMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#ffcc80', metalness: 0.1, roughness: 0.6,
+  }), [])
+  return (
+    <group ref={groupRef}>
+      {isRed ? (
+        <>
+          {/* Mario body */}
+          <mesh position={[0, 0.04 * s, 0]}><boxGeometry args={[0.16 * s, 0.12 * s, 0.1 * s]} /><meshPhysicalMaterial {...bodyMat} /></mesh>
+          {/* Head */}
+          <mesh position={[0, 0.14 * s, 0]}><sphereGeometry args={[0.08 * s, 12, 12]} /><meshPhysicalMaterial {...skinMat} /></mesh>
+          {/* Cap */}
+          <mesh position={[0, 0.19 * s, 0]}><sphereGeometry args={[0.07 * s, 12, 12]} /><meshPhysicalMaterial color="#e53935" metalness={0.2} roughness={0.5} /></mesh>
+          {/* Cap brim */}
+          <mesh position={[0, 0.16 * s, 0.06 * s]}><boxGeometry args={[0.1 * s, 0.015 * s, 0.03 * s]} /><meshPhysicalMaterial color="#e53935" metalness={0.2} roughness={0.5} /></mesh>
+          {/* M */}
+          <mesh position={[0, 0.2 * s, 0.07 * s]}><boxGeometry args={[0.04 * s, 0.03 * s, 0.005 * s]} /><meshPhysicalMaterial color="#fff" metalness={0.1} roughness={0.3} /></mesh>
+          {/* Eyes */}
+          <mesh position={[-0.025 * s, 0.15 * s, 0.075 * s]}><sphereGeometry args={[0.01 * s, 6, 6]} /><meshBasicMaterial color="#222" /></mesh>
+          <mesh position={[0.025 * s, 0.15 * s, 0.075 * s]}><sphereGeometry args={[0.01 * s, 6, 6]} /><meshBasicMaterial color="#222" /></mesh>
+          {/* Mustache */}
+          <mesh position={[0, 0.13 * s, 0.075 * s]}><boxGeometry args={[0.05 * s, 0.006 * s, 0.005 * s]} /><meshPhysicalMaterial color="#3e2723" metalness={0.1} roughness={0.7} /></mesh>
+          {/* Overalls */}
+          <mesh position={[0, 0.01 * s, 0]}><boxGeometry args={[0.12 * s, 0.06 * s, 0.08 * s]} /><meshPhysicalMaterial color="#1565c0" metalness={0.2} roughness={0.5} /></mesh>
+        </>
+      ) : (
+        <>
+          {/* Bowser shell body */}
+          <mesh position={[0, 0.06 * s, 0]}><sphereGeometry args={[0.12 * s, 12, 12]} /><meshPhysicalMaterial {...bodyMat} /></mesh>
+          {/* Spikes on shell */}
+          {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
+            <mesh key={deg} position={[
+              Math.cos(deg * Math.PI / 180) * 0.1 * s,
+              0.12 * s + Math.sin(deg * Math.PI / 180) * 0.02 * s,
+              Math.sin(deg * Math.PI / 180) * 0.1 * s,
+            ]}>
+              <coneGeometry args={[0.01 * s, 0.04 * s, 4]} />
+              <meshPhysicalMaterial color="#ffd54f" metalness={0.4} roughness={0.3} />
+            </mesh>
+          ))}
+          {/* Head */}
+          <mesh position={[0.12 * s, 0.02 * s, 0]}><sphereGeometry args={[0.06 * s, 12, 12]} /><meshPhysicalMaterial {...skinMat} /></mesh>
+          {/* Snout */}
+          <mesh position={[0.17 * s, 0.01 * s, 0]}><sphereGeometry args={[0.035 * s, 8, 8]} /><meshPhysicalMaterial color="#8d6e63" metalness={0.1} roughness={0.6} /></mesh>
+          {/* Eyes */}
+          <mesh position={[0.14 * s, 0.05 * s, 0.04 * s]}><sphereGeometry args={[0.01 * s, 6, 6]} /><meshBasicMaterial color="#ff0000" /></mesh>
+          <mesh position={[0.14 * s, 0.05 * s, -0.04 * s]}><sphereGeometry args={[0.01 * s, 6, 6]} /><meshBasicMaterial color="#ff0000" /></mesh>
+          {/* Horns */}
+          <mesh position={[0.08 * s, 0.1 * s, 0.04 * s]} rotation={[0, 0, -0.3]}><coneGeometry args={[0.008 * s, 0.04 * s, 4]} /><meshPhysicalMaterial color="#5d4037" metalness={0.3} roughness={0.5} /></mesh>
+          <mesh position={[0.08 * s, 0.1 * s, -0.04 * s]} rotation={[0, 0, -0.3]}><coneGeometry args={[0.008 * s, 0.04 * s, 4]} /><meshPhysicalMaterial color="#5d4037" metalness={0.3} roughness={0.5} /></mesh>
+        </>
+      )}
+      {/* Base */}
+      <mesh position={[0, -0.02 * s, 0]}><cylinderGeometry args={[0.08 * s, 0.1 * s, 0.02 * s, 8]} /><meshPhysicalMaterial color="#222" metalness={0.2} roughness={0.7} /></mesh>
+    </group>
+  )
+}
+
+function LinkGanonPiece({ color, isRed, isSelected, pieceHeight }: {
+  color: string; isRed: boolean; isSelected: boolean; pieceHeight: number
+}) {
+  const groupRef = useRef<THREE.Group>(null)
+  useFrame((_, delta) => {
+    if (groupRef.current && isSelected) groupRef.current.rotation.y += delta * 0.5
+  })
+  const s = pieceHeight * 0.5
+  const greenMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#4caf50', metalness: 0.3, roughness: 0.5,
+    emissive: isSelected ? '#c9a84c' : '#4caf50', emissiveIntensity: isSelected ? 0.3 : 0.05,
+  }), [isSelected])
+  const purpleMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#6a1b9a', metalness: 0.5, roughness: 0.3,
+    emissive: isSelected ? '#c9a84c' : '#6a1b9a', emissiveIntensity: isSelected ? 0.3 : 0.05,
+  }), [isSelected])
+  const mat = isRed ? greenMat : purpleMat
+  return (
+    <group ref={groupRef}>
+      {isRed ? (
+        <>
+          {/* Link body - tunic */}
+          <mesh position={[0, 0.04 * s, 0]}><boxGeometry args={[0.14 * s, 0.14 * s, 0.1 * s]} /><meshPhysicalMaterial {...mat} /></mesh>
+          {/* Head */}
+          <mesh position={[0, 0.14 * s, 0]}><sphereGeometry args={[0.06 * s, 12, 12]} /><meshPhysicalMaterial color="#ffcc80" metalness={0.1} roughness={0.6} /></mesh>
+          {/* Hair/hat */}
+          <mesh position={[0, 0.17 * s, 0.01 * s]}><coneGeometry args={[0.05 * s, 0.04 * s, 8]} /><meshPhysicalMaterial color="#ffd54f" metalness={0.1} roughness={0.5} /></mesh>
+          {/* Eyes */}
+          <mesh position={[-0.02 * s, 0.14 * s, 0.06 * s]}><sphereGeometry args={[0.008 * s, 6, 6]} /><meshBasicMaterial color="#1a237e" /></mesh>
+          <mesh position={[0.02 * s, 0.14 * s, 0.06 * s]}><sphereGeometry args={[0.008 * s, 6, 6]} /><meshBasicMaterial color="#1a237e" /></mesh>
+          {/* Sword */}
+          <mesh position={[0.16 * s, 0.08 * s, 0]} rotation={[0, 0, 0.2]}><boxGeometry args={[0.06 * s, 0.006 * s, 0.004 * s]} /><meshPhysicalMaterial color="#9e9e9e" metalness={0.8} roughness={0.2} /></mesh>
+          <mesh position={[0.18 * s, 0.04 * s, 0]}><boxGeometry args={[0.01 * s, 0.01 * s, 0.006 * s]} /><meshPhysicalMaterial color="#795548" metalness={0.3} roughness={0.5} /></mesh>
+          {/* Shield */}
+          <mesh position={[-0.12 * s, 0.06 * s, 0.07 * s]}><boxGeometry args={[0.04 * s, 0.06 * s, 0.008 * s]} /><meshPhysicalMaterial color="#1a237e" metalness={0.4} roughness={0.5} /></mesh>
+        </>
+      ) : (
+        <>
+          {/* Ganon body */}
+          <mesh position={[0, 0.06 * s, 0]}><cylinderGeometry args={[0.08 * s, 0.12 * s, 0.16 * s, 8]} /><meshPhysicalMaterial {...mat} /></mesh>
+          {/* Head */}
+          <mesh position={[0, 0.16 * s, 0]}><sphereGeometry args={[0.06 * s, 12, 12]} /><meshPhysicalMaterial color="#4a148c" metalness={0.5} roughness={0.3} /></mesh>
+          {/* Crown/helmet */}
+          <mesh position={[0, 0.19 * s, 0]}><torusGeometry args={[0.05 * s, 0.01 * s, 8, 12]} /><meshPhysicalMaterial color="#ffd700" metalness={0.7} roughness={0.2} /></mesh>
+          {/* Eyes (red) */}
+          <mesh position={[-0.02 * s, 0.16 * s, 0.06 * s]}><sphereGeometry args={[0.008 * s, 6, 6]} /><meshBasicMaterial color="#ff0000" /></mesh>
+          <mesh position={[0.02 * s, 0.16 * s, 0.06 * s]}><sphereGeometry args={[0.008 * s, 6, 6]} /><meshBasicMaterial color="#ff0000" /></mesh>
+          {/* Trident */}
+          <mesh position={[0.14 * s, 0.1 * s, 0]} rotation={[0, 0, 0.2]}><boxGeometry args={[0.07 * s, 0.004 * s, 0.004 * s]} /><meshPhysicalMaterial color="#616161" metalness={0.7} roughness={0.2} /></mesh>
+          <mesh position={[0.17 * s, 0.14 * s, 0]}><coneGeometry args={[0.008 * s, 0.025 * s, 4]} /><meshPhysicalMaterial color="#9e9e9e" metalness={0.7} roughness={0.2} /></mesh>
+        </>
+      )}
+      <mesh position={[0, -0.02 * s, 0]}><cylinderGeometry args={[0.08 * s, 0.1 * s, 0.02 * s, 8]} /><meshPhysicalMaterial color="#222" metalness={0.2} roughness={0.7} /></mesh>
+    </group>
+  )
+}
+
+function MuscleSportPiece({ color, isRed, isSelected, pieceHeight }: {
+  color: string; isRed: boolean; isSelected: boolean; pieceHeight: number
+}) {
+  const groupRef = useRef<THREE.Group>(null)
+  useFrame((_, delta) => {
+    if (groupRef.current && isSelected) groupRef.current.rotation.y += delta * 0.5
+  })
+  const s = pieceHeight * 0.48
+  const bodyMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: isRed ? '#c62828' : '#1565c0', metalness: 0.6, roughness: 0.3,
+    emissive: isSelected ? '#c9a84c' : (isRed ? '#c62828' : '#1565c0'), emissiveIntensity: isSelected ? 0.3 : 0.05,
+  }), [isRed, isSelected])
+  const darkMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#222', metalness: 0.4, roughness: 0.5,
+  }), [])
+  return (
+    <group ref={groupRef}>
+      {/* Body */}
+      <mesh position={[0, 0.05 * s, 0]}><boxGeometry args={[isRed ? 0.2 * s : 0.16 * s, 0.1 * s, 0.12 * s]} /><meshPhysicalMaterial {...bodyMat} /></mesh>
+      {/* Cabin */}
+      <mesh position={[0, 0.03 * s, 0.06 * s]}><boxGeometry args={[0.08 * s, 0.04 * s, 0.02 * s]} /><meshPhysicalMaterial color="#333" metalness={0.2} roughness={0.5} /></mesh>
+      {/* Wheels */}
+      {[[-0.1 * s, 0, 0.1 * s], [-0.1 * s, 0, -0.1 * s], [0.1 * s, 0, 0.1 * s], [0.1 * s, 0, -0.1 * s]].map(([x, y, z], i) => (
+        <mesh key={i} position={[x, y, z]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.025 * s, 0.03 * s, 0.02 * s, 8]} /><meshPhysicalMaterial {...darkMat} /></mesh>
+      ))}
+      {/* Spoiler (muscle) */}
+      {isRed && <mesh position={[-0.12 * s, 0.08 * s, 0]}><boxGeometry args={[0.02 * s, 0.03 * s, 0.08 * s]} /><meshPhysicalMaterial {...darkMat} /></mesh>}
+      {/* Spoiler (sport) */}
+      {!isRed && <mesh position={[-0.1 * s, 0.06 * s, 0]}><boxGeometry args={[0.008 * s, 0.015 * s, 0.06 * s]} /><meshPhysicalMaterial {...darkMat} /></mesh>}
+      {/* Headlights */}
+      <mesh position={[0.12 * s, 0.03 * s, 0.06 * s]}><sphereGeometry args={[0.01 * s, 6, 6]} /><meshPhysicalMaterial color="#ffeb3b" emissive="#ffeb3b" emissiveIntensity={0.4} /></mesh>
+      <mesh position={[0.12 * s, 0.03 * s, -0.06 * s]}><sphereGeometry args={[0.01 * s, 6, 6]} /><meshPhysicalMaterial color="#ffeb3b" emissive="#ffeb3b" emissiveIntensity={0.4} /></mesh>
+      {/* Base */}
+      <mesh position={[0, -0.02 * s, 0]}><cylinderGeometry args={[0.08 * s, 0.1 * s, 0.02 * s, 8]} /><meshPhysicalMaterial {...darkMat} /></mesh>
+    </group>
+  )
+}
+
+function AlienAstronautPiece({ color, isRed, isSelected, pieceHeight }: {
+  color: string; isRed: boolean; isSelected: boolean; pieceHeight: number
+}) {
+  const groupRef = useRef<THREE.Group>(null)
+  useFrame((_, delta) => {
+    if (groupRef.current) {
+      if (isSelected) groupRef.current.rotation.y += delta * 0.5
+      groupRef.current.position.y = Math.sin(Date.now() * 0.002) * 0.015 * pieceHeight
+    }
+  })
+  const s = pieceHeight * 0.5
+  const greenMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#66bb6a', metalness: 0.2, roughness: 0.5,
+    emissive: isSelected ? '#c9a84c' : '#66bb6a', emissiveIntensity: isSelected ? 0.3 : 0.05,
+  }), [isSelected])
+  const whiteMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#eeeeee', metalness: 0.3, roughness: 0.4,
+    emissive: isSelected ? '#c9a84c' : '#eeeeee', emissiveIntensity: isSelected ? 0.3 : 0.02,
+  }), [isSelected])
+  const mat = isRed ? greenMat : whiteMat
+  return (
+    <group ref={groupRef}>
+      {isRed ? (
+        <>
+          {/* Alien body */}
+          <mesh position={[0, 0.04 * s, 0]}><sphereGeometry args={[0.1 * s, 12, 12]} /><meshPhysicalMaterial {...mat} /></mesh>
+          {/* Head */}
+          <mesh position={[0, 0.16 * s, 0]}><sphereGeometry args={[0.07 * s, 12, 12]} /><meshPhysicalMaterial {...mat} /></mesh>
+          {/* Big eyes */}
+          <mesh position={[-0.03 * s, 0.17 * s, 0.07 * s]}><sphereGeometry args={[0.02 * s, 8, 8]} /><meshBasicMaterial color="#111" /></mesh>
+          <mesh position={[0.03 * s, 0.17 * s, 0.07 * s]}><sphereGeometry args={[0.02 * s, 8, 8]} /><meshBasicMaterial color="#111" /></mesh>
+          {/* Eye glow */}
+          <mesh position={[-0.03 * s, 0.17 * s, 0.075 * s]}><sphereGeometry args={[0.01 * s, 8, 8]} /><meshBasicMaterial color="#00e5ff" /></mesh>
+          <mesh position={[0.03 * s, 0.17 * s, 0.075 * s]}><sphereGeometry args={[0.01 * s, 8, 8]} /><meshBasicMaterial color="#00e5ff" /></mesh>
+          {/* Antenna */}
+          <mesh position={[0, 0.22 * s, 0]}><cylinderGeometry args={[0.003 * s, 0.003 * s, 0.04 * s, 4]} /><meshBasicMaterial color="#888" /></mesh>
+          <mesh position={[0, 0.24 * s, 0]}><sphereGeometry args={[0.006 * s, 6, 6]} /><meshBasicMaterial color="#00e5ff" /></mesh>
+        </>
+      ) : (
+        <>
+          {/* Astronaut body */}
+          <mesh position={[0, 0.04 * s, 0]}><boxGeometry args={[0.14 * s, 0.14 * s, 0.1 * s]} /><meshPhysicalMaterial {...mat} /></mesh>
+          {/* Head/Helmet */}
+          <mesh position={[0, 0.15 * s, 0]}><sphereGeometry args={[0.07 * s, 12, 12]} /><meshPhysicalMaterial {...whiteMat} /></mesh>
+          {/* Visor */}
+          <mesh position={[0, 0.15 * s, 0.07 * s]}><sphereGeometry args={[0.04 * s, 12, 8]} /><meshPhysicalMaterial color="#ffd54f" metalness={0.9} roughness={0.1} emissive="#ffd54f" emissiveIntensity={0.1} /></mesh>
+          {/* Backpack */}
+          <mesh position={[0, 0.06 * s, -0.08 * s]}><boxGeometry args={[0.08 * s, 0.1 * s, 0.03 * s]} /><meshPhysicalMaterial color="#ccc" metalness={0.3} roughness={0.5} /></mesh>
+          {/* Arms */}
+          <mesh position={[-0.1 * s, 0.06 * s, 0]}><boxGeometry args={[0.02 * s, 0.08 * s, 0.02 * s]} /><meshPhysicalMaterial {...whiteMat} /></mesh>
+          <mesh position={[0.1 * s, 0.06 * s, 0]}><boxGeometry args={[0.02 * s, 0.08 * s, 0.02 * s]} /><meshPhysicalMaterial {...whiteMat} /></mesh>
+        </>
+      )}
+      <mesh position={[0, -0.02 * s, 0]}><cylinderGeometry args={[0.08 * s, 0.1 * s, 0.02 * s, 8]} /><meshPhysicalMaterial color="#222" metalness={0.2} roughness={0.7} /></mesh>
+    </group>
+  )
+}
+
+function DragonMagePiece({ color, isRed, isSelected, pieceHeight }: {
+  color: string; isRed: boolean; isSelected: boolean; pieceHeight: number
+}) {
+  const groupRef = useRef<THREE.Group>(null)
+  useFrame((_, delta) => {
+    if (groupRef.current && isSelected) {
+      groupRef.current.rotation.y += delta * 0.5
+      if (!isRed) {
+        const children = groupRef.current.children
+        for (let i = 0; i < children.length; i++) {
+          if (children[i].userData.float) {
+            children[i].position.y += Math.sin(Date.now() * 0.003 + i) * 0.002
+          }
+        }
+      }
+    }
+  })
+  const s = pieceHeight * 0.5
+  const dragonMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#b71c1c', metalness: 0.4, roughness: 0.4,
+    emissive: isSelected ? '#c9a84c' : '#b71c1c', emissiveIntensity: isSelected ? 0.3 : 0.05,
+  }), [isSelected])
+  const mageMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#1a237e', metalness: 0.3, roughness: 0.5,
+    emissive: isSelected ? '#c9a84c' : '#1a237e', emissiveIntensity: isSelected ? 0.3 : 0.05,
+  }), [isSelected])
+  return (
+    <group ref={groupRef}>
+      {isRed ? (
+        <>
+          {/* Dragon body */}
+          <mesh position={[0, 0.06 * s, 0]}><sphereGeometry args={[0.1 * s, 12, 12]} /><meshPhysicalMaterial {...dragonMat} /></mesh>
+          {/* Head */}
+          <mesh position={[0.12 * s, 0.08 * s, 0]}><sphereGeometry args={[0.06 * s, 10, 10]} /><meshPhysicalMaterial {...dragonMat} /></mesh>
+          {/* Snout */}
+          <mesh position={[0.17 * s, 0.06 * s, 0]}><sphereGeometry args={[0.03 * s, 8, 8]} /><meshPhysicalMaterial color="#5d4037" metalness={0.2} roughness={0.6} /></mesh>
+          {/* Eyes */}
+          <mesh position={[0.14 * s, 0.1 * s, 0.04 * s]}><sphereGeometry args={[0.008 * s, 6, 6]} /><meshBasicMaterial color="#ffeb3b" /></mesh>
+          <mesh position={[0.14 * s, 0.1 * s, -0.04 * s]}><sphereGeometry args={[0.008 * s, 6, 6]} /><meshBasicMaterial color="#ffeb3b" /></mesh>
+          {/* Wings */}
+          <mesh position={[-0.04 * s, 0.12 * s, 0.12 * s]} rotation={[-0.3, 0.2, 0]}><boxGeometry args={[0.1 * s, 0.004 * s, 0.06 * s]} /><meshPhysicalMaterial color="#424242" metalness={0.2} roughness={0.6} /></mesh>
+          <mesh position={[-0.04 * s, 0.12 * s, -0.12 * s]} rotation={[0.3, -0.2, 0]}><boxGeometry args={[0.1 * s, 0.004 * s, 0.06 * s]} /><meshPhysicalMaterial color="#424242" metalness={0.2} roughness={0.6} /></mesh>
+          {/* Tail */}
+          <mesh position={[-0.14 * s, 0.04 * s, 0]} rotation={[0, 0, 0.3]}><coneGeometry args={[0.015 * s, 0.08 * s, 6]} /><meshPhysicalMaterial {...dragonMat} /></mesh>
+          {/* Flame */}
+          <mesh position={[0.2 * s, 0.05 * s, 0]}><sphereGeometry args={[0.015 * s, 6, 6]} /><meshPhysicalMaterial color="#ff6600" emissive="#ff4400" emissiveIntensity={0.6} metalness={0.1} roughness={0.3} /></mesh>
+        </>
+      ) : (
+        <>
+          {/* Mage body/robe */}
+          <mesh position={[0, 0.04 * s, 0]}><coneGeometry args={[0.1 * s, 0.15 * s, 8]} /><meshPhysicalMaterial {...mageMat} /></mesh>
+          {/* Head */}
+          <mesh position={[0, 0.13 * s, 0]}><sphereGeometry args={[0.05 * s, 10, 10]} /><meshPhysicalMaterial color="#ffcc80" metalness={0.1} roughness={0.6} /></mesh>
+          {/* Wizard hat */}
+          <mesh position={[0, 0.18 * s, 0]}><coneGeometry args={[0.06 * s, 0.08 * s, 8]} /><meshPhysicalMaterial {...mageMat} /></mesh>
+          {/* Hat brim */}
+          <mesh position={[0, 0.14 * s, 0]}><torusGeometry args={[0.055 * s, 0.008 * s, 8, 12]} /><meshPhysicalMaterial {...mageMat} /></mesh>
+          {/* Star on hat */}
+          <mesh position={[0, 0.23 * s, 0]} userData={{ float: true }}><octahedronGeometry args={[0.01 * s, 0]} /><meshPhysicalMaterial color="#ffd700" emissive="#ffd700" emissiveIntensity={0.5} metalness={0.7} roughness={0.2} /></mesh>
+          {/* Beard */}
+          <mesh position={[0, 0.09 * s, 0.04 * s]}><coneGeometry args={[0.025 * s, 0.04 * s, 6]} /><meshPhysicalMaterial color="#eceff1" metalness={0.1} roughness={0.8} /></mesh>
+          {/* Staff */}
+          <mesh position={[0.12 * s, 0.08 * s, 0]}><cylinderGeometry args={[0.004 * s, 0.004 * s, 0.1 * s, 4]} /><meshPhysicalMaterial color="#795548" metalness={0.3} roughness={0.5} /></mesh>
+          {/* Staff orb */}
+          <mesh position={[0.12 * s, 0.14 * s, 0]} userData={{ float: true }}><sphereGeometry args={[0.012 * s, 8, 8]} /><meshPhysicalMaterial color="#00bcd4" emissive="#00bcd4" emissiveIntensity={0.5} metalness={0.3} roughness={0.2} /></mesh>
+        </>
+      )}
+      <mesh position={[0, -0.02 * s, 0]}><cylinderGeometry args={[0.08 * s, 0.1 * s, 0.02 * s, 8]} /><meshPhysicalMaterial color="#222" metalness={0.2} roughness={0.7} /></mesh>
+    </group>
+  )
+}
+
+function DogCatPiece({ color, isRed, isSelected, pieceHeight }: {
+  color: string; isRed: boolean; isSelected: boolean; pieceHeight: number
+}) {
+  const groupRef = useRef<THREE.Group>(null)
+  useFrame((_, delta) => {
+    if (groupRef.current && isSelected) groupRef.current.rotation.y += delta * 0.5
+  })
+  const s = pieceHeight * 0.5
+  const brownMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#8d6e63', metalness: 0.1, roughness: 0.7,
+    emissive: isSelected ? '#c9a84c' : '#8d6e63', emissiveIntensity: isSelected ? 0.3 : 0.03,
+  }), [isSelected])
+  const orangeMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: '#ff9800', metalness: 0.1, roughness: 0.6,
+    emissive: isSelected ? '#c9a84c' : '#ff9800', emissiveIntensity: isSelected ? 0.3 : 0.03,
+  }), [isSelected])
+  const mat = isRed ? brownMat : orangeMat
+  return (
+    <group ref={groupRef}>
+      {/* Body */}
+      <mesh position={[0, 0.05 * s, 0]}><boxGeometry args={[0.16 * s, 0.1 * s, 0.1 * s]} /><meshPhysicalMaterial {...mat} /></mesh>
+      {/* Head */}
+      <mesh position={[0.12 * s, 0.1 * s, 0]}><sphereGeometry args={[0.06 * s, 10, 10]} /><meshPhysicalMaterial {...mat} /></mesh>
+      {/* Snout */}
+      <mesh position={[0.17 * s, 0.08 * s, 0]}><sphereGeometry args={[0.03 * s, 8, 8]} /><meshPhysicalMaterial color={isRed ? '#a1887f' : '#ffe0b2'} metalness={0.1} roughness={0.7} /></mesh>
+      {/* Nose */}
+      <mesh position={[0.2 * s, 0.08 * s, 0]}><sphereGeometry args={[0.006 * s, 6, 6]} /><meshPhysicalMaterial color="#222" metalness={0.1} roughness={0.5} /></mesh>
+      {/* Eyes */}
+      <mesh position={[0.14 * s, 0.12 * s, 0.04 * s]}><sphereGeometry args={[0.008 * s, 6, 6]} /><meshBasicMaterial color="#222" /></mesh>
+      <mesh position={[0.14 * s, 0.12 * s, -0.04 * s]}><sphereGeometry args={[0.008 * s, 6, 6]} /><meshBasicMaterial color="#222" /></mesh>
+      {/* Ears */}
+      {isRed ? (
+        <>
+          {/* Dog floppy ears */}
+          <mesh position={[0.08 * s, 0.14 * s, 0.05 * s]} rotation={[0, 0, -0.3]}><boxGeometry args={[0.03 * s, 0.05 * s, 0.008 * s]} /><meshPhysicalMaterial {...brownMat} /></mesh>
+          <mesh position={[0.08 * s, 0.14 * s, -0.05 * s]} rotation={[0, 0, -0.3]}><boxGeometry args={[0.03 * s, 0.05 * s, 0.008 * s]} /><meshPhysicalMaterial {...brownMat} /></mesh>
+        </>
+      ) : (
+        <>
+          {/* Cat pointy ears */}
+          <mesh position={[0.09 * s, 0.16 * s, 0.04 * s]} rotation={[0, 0, -0.4]}><coneGeometry args={[0.012 * s, 0.04 * s, 4]} /><meshPhysicalMaterial color="#ff9800" metalness={0.1} roughness={0.6} /></mesh>
+          <mesh position={[0.09 * s, 0.16 * s, -0.04 * s]} rotation={[0, 0, -0.4]}><coneGeometry args={[0.012 * s, 0.04 * s, 4]} /><meshPhysicalMaterial color="#ff9800" metalness={0.1} roughness={0.6} /></mesh>
+        </>
+      )}
+      {/* Tail */}
+      {isRed ? (
+        <mesh position={[-0.12 * s, 0.08 * s, 0]} rotation={[0, 0, 0.5]}><cylinderGeometry args={[0.008 * s, 0.012 * s, 0.06 * s, 4]} /><meshPhysicalMaterial {...brownMat} /></mesh>
+      ) : (
+        <mesh position={[-0.12 * s, 0.1 * s, 0]} rotation={[0, 0, 0.8]}><cylinderGeometry args={[0.006 * s, 0.008 * s, 0.06 * s, 4]} /><meshPhysicalMaterial color="#ff9800" metalness={0.1} roughness={0.6} /></mesh>
+      )}
+      {/* Base */}
+      <mesh position={[0, -0.02 * s, 0]}><cylinderGeometry args={[0.08 * s, 0.1 * s, 0.02 * s, 8]} /><meshPhysicalMaterial color="#222" metalness={0.2} roughness={0.7} /></mesh>
+    </group>
+  )
+}
+
+function PizzaDonutPiece({ color, isRed, isSelected, pieceHeight }: {
+  color: string; isRed: boolean; isSelected: boolean; pieceHeight: number
+}) {
+  const groupRef = useRef<THREE.Group>(null)
+  useFrame((_, delta) => {
+    if (groupRef.current && isSelected) groupRef.current.rotation.y += delta * 0.5
+  })
+  const s = pieceHeight * 0.5
+  return (
+    <group ref={groupRef}>
+      {isRed ? (
+        <>
+          {/* Pizza crust */}
+          <mesh position={[0, 0.02 * s, 0]} rotation={[0, 0, 0.2]}>
+            <coneGeometry args={[0.14 * s, 0.015 * s, 3]} />
+            <meshPhysicalMaterial color="#d4a46b" metalness={0.1} roughness={0.8} />
+          </mesh>
+          {/* Pizza toppings */}
+          <mesh position={[0, 0.025 * s, 0]} rotation={[0, 0, 0.2]}>
+            <coneGeometry args={[0.12 * s, 0.008 * s, 3]} />
+            <meshPhysicalMaterial color="#e53935" metalness={0.1} roughness={0.7} />
+          </mesh>
+          {/* Cheese spots */}
+          <mesh position={[0.04 * s, 0.03 * s, 0.04 * s]}><sphereGeometry args={[0.008 * s, 6, 6]} /><meshPhysicalMaterial color="#ffd54f" metalness={0.1} roughness={0.7} /></mesh>
+          <mesh position={[-0.03 * s, 0.03 * s, -0.04 * s]}><sphereGeometry args={[0.006 * s, 6, 6]} /><meshPhysicalMaterial color="#ffd54f" metalness={0.1} roughness={0.7} /></mesh>
+          {/* Pepperoni */}
+          <mesh position={[0.06 * s, 0.025 * s, -0.02 * s]}><cylinderGeometry args={[0.01 * s, 0.01 * s, 0.004 * s, 8]} /><meshPhysicalMaterial color="#c62828" metalness={0.1} roughness={0.7} /></mesh>
+          <mesh position={[-0.04 * s, 0.025 * s, 0.05 * s]}><cylinderGeometry args={[0.008 * s, 0.008 * s, 0.004 * s, 8]} /><meshPhysicalMaterial color="#c62828" metalness={0.1} roughness={0.7} /></mesh>
+        </>
+      ) : (
+        <>
+          {/* Donut body */}
+          <mesh position={[0, 0.04 * s, 0]} rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[0.1 * s, 0.035 * s, 8, 16]} />
+            <meshPhysicalMaterial color="#d4a46b" metalness={0.1} roughness={0.6} />
+          </mesh>
+          {/* Icing */}
+          <mesh position={[0, 0.07 * s, 0]} rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[0.1 * s, 0.038 * s, 8, 16]} />
+            <meshPhysicalMaterial color="#ff80ab" metalness={0.1} roughness={0.3} emissive="#ff80ab" emissiveIntensity={0.05} />
+          </mesh>
+          {/* Sprinkles */}
+          {[
+            [0.06 * s, 0.076 * s, 0.06 * s], [-0.06 * s, 0.076 * s, 0.06 * s],
+            [0.08 * s, 0.076 * s, -0.02 * s], [-0.08 * s, 0.076 * s, -0.02 * s],
+            [0, 0.076 * s, -0.09 * s], [0, 0.076 * s, 0.09 * s],
+          ].map(([x, y, z], i) => (
+            <mesh key={i} position={[x, y, z]}><boxGeometry args={[0.004 * s, 0.001 * s, 0.008 * s]} /><meshBasicMaterial color={['#e53935', '#43a047', '#1e88e5', '#ffd54f', '#ff7043', '#ab47bc'][i]} /></mesh>
+          ))}
+        </>
+      )}
+      <mesh position={[0, -0.02 * s, 0]}><cylinderGeometry args={[0.08 * s, 0.1 * s, 0.02 * s, 8]} /><meshPhysicalMaterial color="#222" metalness={0.2} roughness={0.7} /></mesh>
+    </group>
+  )
+}
+
 function GLBModelPiece({ color, isRed, isSelected, pieceHeight, modelPath }: {
   color: string; isRed: boolean; isSelected: boolean; pieceHeight: number; modelPath: string
 }) {
@@ -568,7 +1032,7 @@ function AnimatedPiece({
     z: (piece.row - boardOffset / CELL_SIZE + 0.5) * CELL_SIZE,
   }), [piece.col, piece.row, boardOffset])
 
-  const specialSkins = useMemo(() => new Set(['f1_car', 'horse', 'crown_model', 'magic_crystal', 'shield', 'spaceship', 'robot', 'aventador_svj', 'porsche_911', 'phoenix']), [])
+  const specialSkins = useMemo(() => new Set(['f1_car', 'horse', 'crown_model', 'magic_crystal', 'shield', 'spaceship', 'robot', 'aventador_svj', 'porsche_911', 'phoenix', 'pokemon', 'mario_bowser', 'link_ganon', 'muscle_sport', 'alien_astronaut', 'dragon_mage', 'dog_cat', 'pizza_donut']), [])
   const isSpecialSkin = skinId ? specialSkins.has(skinId) : false
   const pieceHeight = isSpecialSkin ? (piece.isKing ? 0.35 : 0.28) : (piece.isKing ? 0.38 : 0.32)
   const pieceProfile = useMemo(() => createPieceProfile(pieceHeight), [pieceHeight])
@@ -587,6 +1051,14 @@ function AnimatedPiece({
       'aventador_svj': (props) => GLBModelPiece({ ...props, modelPath: '/models/aventador_svj.glb' }),
       'porsche_911': (props) => GLBModelPiece({ ...props, modelPath: '/models/porsche_911.glb' }),
       'phoenix': (props) => GLBModelPiece({ ...props, modelPath: '/models/phoenix.glb' }),
+      'pokemon': PikachuCharmanderPiece,
+      'mario_bowser': MarioBowserPiece,
+      'link_ganon': LinkGanonPiece,
+      'muscle_sport': MuscleSportPiece,
+      'alien_astronaut': AlienAstronautPiece,
+      'dragon_mage': DragonMagePiece,
+      'dog_cat': DogCatPiece,
+      'pizza_donut': PizzaDonutPiece,
     }
     return map[skinId]
   }, [skinId])

@@ -26,6 +26,14 @@ const SHOP_ITEMS: ShopItem[] = [
   { id: '6', name: 'Serie Obsidiana', description: 'Piezas de vidrio volcánico negro pulido con brillo elegante.', price: 1800, type: 'piece', preview: '🪨', rarity: 'rare' },
   { id: '7', name: 'Corte Amatista', description: 'Piezas púrpura translúcidas con un sutil resplandor interior.', price: 4200, type: 'piece', preview: '💜', rarity: 'epic' },
   { id: '8', name: 'Llamarada Solar', description: 'Piezas doradas radiantes que brillan con un cálido resplandor.', price: 9500, type: 'piece', preview: '☀️', rarity: 'legendary' },
+  { id: '37', name: 'Pokémon', description: 'Pikachu vs Charmander — modelo 3D low-poly. ¡Elige a tu inicial!', price: 500, type: 'piece', preview: '⚡', rarity: 'epic' },
+  { id: '38', name: 'Mario', description: 'Mario vs Bowser — el fontanero y su némesis en tu tablero.', price: 500, type: 'piece', preview: '🍄', rarity: 'epic' },
+  { id: '39', name: 'Zelda', description: 'Link vs Ganon — la lucha eterna de Hyrule en 3D.', price: 500, type: 'piece', preview: '⚔️', rarity: 'epic' },
+  { id: '40', name: 'Autos', description: 'Muscle car vs Sport car — velocidad sobre el tablero.', price: 450, type: 'piece', preview: '🏎️', rarity: 'rare' },
+  { id: '41', name: 'Espacio', description: 'Alien vs Astronauta — la conquista del cosmos.', price: 550, type: 'piece', preview: '👽', rarity: 'epic' },
+  { id: '42', name: 'Fantasía', description: 'Dragón vs Mago — magia y fuego en cada movimiento.', price: 550, type: 'piece', preview: '🐉', rarity: 'epic' },
+  { id: '43', name: 'Animales', description: 'Perro vs Gato — la rivalidad más tierna del tablero.', price: 400, type: 'piece', preview: '🐕', rarity: 'rare' },
+  { id: '44', name: 'Comida', description: 'Pizza vs Donut — el duelo gastronómico definitivo.', price: 350, type: 'piece', preview: '🍕', rarity: 'rare' },
 ]
 
 const RARITY_CONFIG: Record<string, { label: string; class: string }> = {
