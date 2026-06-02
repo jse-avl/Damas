@@ -258,12 +258,11 @@ Damas/
 │   │   └── evaluation.ts      # Función heurística
 │   ├── Dockerfile
 │   └── package.json
-├── Docker_Stitch_Screenshots/ # Diseños de UI (Stitch)
 ├── docker-compose.yml
 ├── AGENTS.md                  # Instrucciones del proyecto
+├── DESIGN.md                  # Diseño de UI (Stitch)
 ├── .env.example               # Variables de entorno
 ├── Damas.prd                  # PRD original
-├── opencode.json              # Config opencode
 └── README.md
 ```
 
@@ -271,48 +270,15 @@ Damas/
 
 El PRD original menciona A*, pero para juegos adversariales por turnos (como Damas), el algoritmo estándar y más eficiente es **Minimax con poda Alpha-Beta**. A* está diseñado para pathfinding de agente único. Minimax evalúa el árbol de juego considerando las respuestas del oponente, que es exactamente lo que necesita un motor de Damas.
 
----
+### Detalles de implementación
 
-## Modelos 3D externos sugeridos
+La IA está en `ai-service/src/engine.ts` e incluye:
 
-Actualmente todas las fichas son generadas proceduralmente con geometrías de Three.js (LatheGeometry para fichas clásicas, BoxGeometry/ConeGeometry/etc para el F1). Para agregar modelos 3D temáticos como fichas, se recomiendan estos recursos gratuitos:
-
-### Sitios con modelos CC0/CC-BY gratuitos
-
-| Sitio | Modelos | Licencia | Formato |
-|-------|---------|----------|---------|
-| [Poly Pizza](https://poly.pizza) | 10,500+ low-poly (autos, animales, personajes, objetos) | CC0 / CC-BY | GLTF, OBJ, FBX |
-| [Kenney](https://kenney.nl) | Miles de assets 3D (vehículos, animales, objetos) | CC0 | GLTF, OBJ, FBX |
-| [Quaternius](https://quaternius.com) | Personajes, vehículos, animales low-poly | CC0 | GLTF, OBJ, FBX |
-| [Poly Haven](https://polyhaven.com) | Modelos + texturas PBR | CC0 | GLB, HDR, PNG |
-| [Sketchfab](https://sketchfab.com) (filtro CC) | Millones de modelos descargables | CC0 / CC-BY | GLTF, OBJ, FBX |
-| [Open Game Art](https://opengameart.org) | Sprites y modelos 3D para juegos | CC0 / CC-BY / GPL | Varios |
-| [itch.io](https://itch.io/game-assets/free) | Asset packs gratuitos de indie devs | Varía | Varios |
-
-### Ideas para fichas temáticas
-
-Los modelos encontrados en estos sitios (todos low-poly, optimizados para juegos) pueden usarse como fichas:
-
-- **Pokémon**: Pikachu, Charmander, Bulbasaur (modelos fan-made CC0 en Sketchfab/Poly Pizza)
-- **Mario**: Goomba, Koopa, Star, Mushroom (modelos low-poly en Poly Pizza)
-- **Zelda**: Rupee, Heart, Master Sword (modelos CC0 en Sketchfab y Quaternius)
-- **Autos**: Sports Car, Muscle Car, Police Car (Quaternius — CC0)
-- **Animales**: Perro, Gato, Oso, Conejo (Poly Pizza / Kenney — CC0/CC-BY)
-- **Espacio**: Alien, Nave espacial, Asteroide (Quaternius Ultimate Space Kit — CC0)
-- **Fantasía**: Dragón, Esqueleto, Mago (Quaternius — CC0)
-- **Comida**: Pizza, Donut, Hamburguesa (Poly Pizza — CC0/CC-BY)
-
-### Cómo integrarlos
-
-Los modelos .glb/.gltf se cargan con `useLoader(GLTFLoader, url)` de `@react-three/drei` o `useGLTF`:
-
-```tsx
-import { useGLTF } from '@react-three/drei'
-
-function MyPieceModel({ url }: { url: string }) {
-  const { scene } = useGLTF(url)
-  return <primitive object={scene} scale={0.8} />
-}
-```
-
-Cada modelo debe colocarse en `frontend/public/models/` y referenciarse desde `PIECE_SKINS` en `constants.ts`.
+| Componente | Archivo | Descripción |
+|------------|---------|-------------|
+| **Minimax** | `engine.ts:42` | Árbol de juego con profundidad configurable por dificultad |
+| **Poda Alpha-Beta** | `engine.ts:77,88` | Poda de ramas no prometedoras (α = mejor para maximizador, β = mejor para minimizador) |
+| **Ordenación de movimientos** | `engine.ts:25` | Capturas y promociones primero para poda más eficiente |
+| **Tabla de transposición** | `engine.ts:12` | Memoización de estados ya evaluados para evitar recomputación |
+| **Función heurística** | `evaluation.ts` | Evalúa material, posición, seguridad de reyes y capturas potenciales |
+| **Dificultades** | `engine.ts:5-9` | Fácil (2 ply), Medio (4 ply), Difícil (6 ply) |
