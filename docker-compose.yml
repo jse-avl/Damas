@@ -1,0 +1,62 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: damas-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - damas-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: damas-backend
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/damas
+      PORT: 4000
+    depends_on:
+      - mongo
+    networks:
+      - damas-network
+
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: damas-ai
+    ports:
+      - "4001:4001"
+    environment:
+      PORT: 4001
+    networks:
+      - damas-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: damas-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://backend:4000
+      VITE_CLERK_PUBLISHABLE_KEY: ${VITE_CLERK_PUBLISHABLE_KEY}
+    depends_on:
+      - backend
+      - ai-service
+    networks:
+      - damas-network
+
+volumes:
+  mongo_data:
+
+networks:
+  damas-network:
+    driver: bridge

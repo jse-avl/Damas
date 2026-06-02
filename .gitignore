@@ -1,0 +1,26 @@
+# opencode config (contains API keys)
+opencode.json
+skills-lock.json
+
+# Environment variables (contain secrets)
+.env
+
+# Dependencies
+node_modules/
+
+# Clerk secrets
+.clerk/
+clerk.lock
+
+# Build output / cache
+dist/
+.tanstack/
+.vinxi/
+
+# Logs
+*.log
+*.err
+
+# OS files
+Thumbs.db
+.DS_Store

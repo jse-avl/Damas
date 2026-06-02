@@ -1,0 +1,23 @@
+Proyecto 2 - Damas
+
+- Stack: Tanstack Start + Bun + Hono + MongoDB
+- Rankings (menor cantidad de movimientos)
+- Usuario vs bot (PvE)
+	- Usar algoritmo A* (con algoritmo de pathfinding o usar gen ai)
+		- Armar rutas o heuristic
+		- Hazlo eficiente de recursos que necesita
+- Usuario con clerk
+- Tablero 6x6 o 6x8
+- Marketplace de tableros y fichas
+- IA para jugar contra el jugador
+- Pagina principal con botones de ingresar/registrarse, jugar, etc
+- Seguir todo las reglas del ajedrez global
+- Cuando la dama llega al otro lado debe convertirse en una reina
+- Usar arquitectura de microservicios
+	- Frontend
+	- Backend
+	- BD
+	- IA (Microservicio) stateless
+		- Recibe las posiciones
+		- Envia a donde debe moverse la ficha del bot
+

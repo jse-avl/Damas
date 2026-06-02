@@ -1,0 +1,21 @@
+{
+  "name": "damas-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "@clerk/backend": "^3.4.13",
+    "hono": "^4.12.23",
+    "mongodb": "^6.12.0",
+    "stripe": "^17.7.0",
+    "svix": "^1.94.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.0",
+    "typescript": "^5.7.0"
+  }
+}
