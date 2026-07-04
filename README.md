@@ -1,4 +1,8 @@
-# Damas 3D ♛
+# Damas 3D ♛ — Damas / Checkers
+
+---
+
+## Español
 
 Juego de damas clásico en 3D con arquitectura de microservicios, modo online, marketplace y sistema de pagos.
 
@@ -6,7 +10,7 @@ Juego de damas clásico en 3D con arquitectura de microservicios, modo online, m
 
 ---
 
-## Arquitectura
+### Arquitectura
 
 ```
 ┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐
@@ -23,20 +27,20 @@ Juego de damas clásico en 3D con arquitectura de microservicios, modo online, m
                           └─────────────┘
 ```
 
-## Requisitos
+### Requisitos
 
 - [Bun](https://bun.sh) >= 1.3
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (opcional, para MongoDB)
 
-## Inicio rápido
+### Inicio rápido
 
-### Con Docker
+#### Con Docker
 
 ```bash
 docker compose up
 ```
 
-### Sin Docker (desarrollo local)
+#### Sin Docker (desarrollo local)
 
 Necesitas MongoDB corriendo en `localhost:27017`.
 
@@ -61,19 +65,19 @@ Abrir [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## Modos de juego
+### Modos de juego
 
-### PvE (Jugador vs Bot)
+#### PvE (Jugador vs Bot)
 - Juegas con las fichas rojas (Jugador 1)
 - El bot juega con las fichas azules (Jugador 2)
 - 3 dificultades: Fácil (2 ply), Medio (4 ply), Difícil (6 ply)
 - El bot usa Minimax con poda Alpha-Beta
 
-### PvP Local
+#### PvP Local
 - Dos jugadores se turnan en el mismo dispositivo
 - Jugador 1: fichas rojas, Jugador 2: fichas azules
 
-### PvP Online
+#### PvP Online
 - Matchmaking automático via SSE (Server-Sent Events)
 - Requiere iniciar sesión con Clerk
 - Turnos sincronizados en tiempo real
@@ -81,7 +85,7 @@ Abrir [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## Reglas de Damas implementadas
+### Reglas de Damas implementadas
 
 - Tablero **6×6** u **8×8** con casillas oscuras y claras
 - **6 fichas por jugador** (filas 1-2 vs filas 5-6) en 6×6; **12 fichas** en 8×8
@@ -94,9 +98,9 @@ Abrir [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## API Endpoints
+### API Endpoints
 
-### Backend (`:4000`)
+#### Backend (`:4000`)
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
@@ -118,7 +122,7 @@ Abrir [http://localhost:3000](http://localhost:3000)
 | `POST` | `/api/payments/create-checkout` | Stripe Checkout |
 | `POST` | `/api/payments/webhook` | Webhook Stripe |
 
-### AI Service (`:4001`)
+#### AI Service (`:4001`)
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
@@ -127,9 +131,9 @@ Abrir [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## Marketplace & Skins
+### Marketplace y Skins
 
-### Tableros disponibles
+#### Tableros disponibles
 
 | Skin | Precio | Descripción |
 |------|--------|-------------|
@@ -150,7 +154,7 @@ Abrir [http://localhost:3000](http://localhost:3000)
 | Cosmos | 550 | Nebulosas y estrellas en el espacio profundo |
 | Cyberpunk | 600 | Neón magenta y cian sobre asfalto mojado |
 
-### Fichas disponibles
+#### Fichas disponibles
 
 | Skin | Precio | Descripción |
 |------|--------|-------------|
@@ -165,7 +169,7 @@ Abrir [http://localhost:3000](http://localhost:3000)
 | **F1** | **350** | **Monoplazas de Fórmula 1 (modelo 3D)** |
 | **Prisma** | **400** | **Cristal prismático con efecto arcoíris** |
 
-### Monedas (Stripe)
+#### Monedas (Stripe)
 
 | Paquete | Monedas | Precio |
 |---------|---------|--------|
@@ -176,7 +180,7 @@ Abrir [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## Fichas Temáticas
+### Fichas Temáticas
 
 Además de las skins clásicas, el juego soporta fichas temáticas con modelos 3D reales. Los modelos `.glb` se cargan con `useGLTF` de `@react-three/drei`:
 
@@ -191,7 +195,7 @@ function MyPieceModel({ url }: { url: string }) {
 
 Cada modelo se coloca en `frontend/public/models/` y se referencia desde `PIECE_SKINS` en `constants.ts`.
 
-### Sets disponibles
+#### Sets disponibles
 
 | Set | Piezas | Precio | Descripción |
 |-----|--------|--------|-------------|
@@ -206,7 +210,7 @@ Cada modelo se coloca en `frontend/public/models/` y se referencia desde `PIECE_
 
 ---
 
-## Características
+### Características
 
 - 🎮 **PvE, PvP Local y Online** — Tres modos de juego
 - 🤖 **IA con Minimax + poda Alpha-Beta** — 3 niveles de dificultad
@@ -222,7 +226,7 @@ Cada modelo se coloca en `frontend/public/models/` y se referencia desde `PIECE_
 
 ---
 
-## Estructura del proyecto
+### Estructura del proyecto
 
 ```
 Damas/
@@ -296,11 +300,11 @@ Damas/
 └── README.md
 ```
 
-## Nota técnica: A* vs Minimax
+### Nota técnica: A* vs Minimax
 
 El PRD original menciona A*, pero para juegos adversariales por turnos (como Damas), el algoritmo estándar y más eficiente es **Minimax con poda Alpha-Beta**. A* está diseñado para pathfinding de agente único. Minimax evalúa el árbol de juego considerando las respuestas del oponente, que es exactamente lo que necesita un motor de Damas.
 
-### Detalles de implementación
+#### Detalles de implementación
 
 La IA está en `ai-service/src/engine.ts` e incluye:
 
@@ -312,3 +316,322 @@ La IA está en `ai-service/src/engine.ts` e incluye:
 | **Tabla de transposición** | `engine.ts:12` | Memoización de estados ya evaluados para evitar recomputación |
 | **Función heurística** | `evaluation.ts` | Evalúa material, posición, seguridad de reyes y capturas potenciales |
 | **Dificultades** | `engine.ts:5-9` | Fácil (2 ply), Medio (4 ply), Difícil (6 ply) |
+
+---
+
+## English
+
+# Damas 3D ♛
+
+Classic checkers game in 3D with microservices architecture, online mode, marketplace and payment system.
+
+**Stack:** TanStack Start + React 19 + Tailwind CSS 4 + React Three Fiber 9 + Bun + Hono + MongoDB
+
+---
+
+## Architecture
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│   Frontend      │     │    Backend       │     │   AI Service     │
+│ (TanStack Start)│────▶│  (Hono + Bun)    │     │  (Minimax + α-β) │
+│  :3000          │     │  :4000           │     │  :4001           │
+│ React + R3F     │     │ MongoDB          │     │  stateless       │
+│ Clerk Auth      │     │ Game Engine      │     │  POST /ai/move   │
+└─────────────────┘     └────────┬─────────┘     └──────────────────┘
+                                 │
+                          ┌──────▼──────┐
+                          │   MongoDB   │
+                          │  :27017     │
+                          └─────────────┘
+```
+
+## Requirements
+
+- [Bun](https://bun.sh) >= 1.3
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (optional, for MongoDB)
+
+## Quick Start
+
+### With Docker
+
+```bash
+docker compose up
+```
+
+### Without Docker (local development)
+
+You need MongoDB running on `localhost:27017`.
+
+```bash
+# Terminal 1 - Backend
+cd backend
+bun install
+bun run src/index.ts
+
+# Terminal 2 - AI Service
+cd ai-service
+bun install
+bun run src/index.ts
+
+# Terminal 3 - Frontend
+cd frontend
+bun install
+bun run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000)
+
+---
+
+## Game Modes
+
+### PvE (Player vs Bot)
+- You play with red pieces (Player 1)
+- The bot plays with blue pieces (Player 2)
+- 3 difficulties: Easy (2 ply), Medium (4 ply), Hard (6 ply)
+- The bot uses Minimax with Alpha-Beta pruning
+
+### Local PvP
+- Two players take turns on the same device
+- Player 1: red pieces, Player 2: blue pieces
+
+### Online PvP
+- Automatic matchmaking via SSE (Server-Sent Events)
+- Requires logging in with Clerk
+- Real-time synchronized turns
+- Skins visible to the opponent
+
+---
+
+## Checkers Rules Implemented
+
+- **6×6** or **8×8** board with dark and light squares
+- **6 pieces per player** (rows 1-2 vs rows 5-6) on 6×6; **12 pieces** on 8×8
+- **Forward diagonal** movement (1 square)
+- **Mandatory capture** (jump over)
+- **Multiple chain capture**
+- **King promotion** upon reaching the opposite end
+- The king moves in **any diagonal direction**
+- Win by capturing all opponent pieces or leaving them with no moves
+
+---
+
+## API Endpoints
+
+### Backend (`:4000`)
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| `GET` | `/api/health` | Health check |
+| `POST` | `/api/games` | Create game (PvE) |
+| `POST` | `/api/games/join` | Online matchmaking |
+| `GET` | `/api/games/:id` | Get game |
+| `POST` | `/api/games/:id/moves` | Make a move |
+| `GET` | `/api/games/:id/events` | SSE — subscribe to changes |
+| `GET` | `/api/games` | List user games |
+| `GET` | `/api/rankings` | Leaderboard (filter by mode) |
+| `GET` | `/api/marketplace/items` | Store items |
+| `POST` | `/api/marketplace/buy` | Buy item (coins) |
+| `GET` | `/api/marketplace/inventory` | User inventory |
+| `POST` | `/api/marketplace/equip` | Equip board/pieces |
+| `POST` | `/api/auth/webhook` | Clerk webhook (Svix) |
+| `GET` | `/api/auth/profile` | User profile |
+| `GET` | `/api/payments/packs` | Coin packs |
+| `POST` | `/api/payments/create-checkout` | Stripe Checkout |
+| `POST` | `/api/payments/webhook` | Stripe webhook |
+
+### AI Service (`:4001`)
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| `GET` | `/api/ai/health` | Health check |
+| `POST` | `/api/ai/move` | Calculate best move |
+
+---
+
+## Marketplace & Skins
+
+### Available Boards
+
+| Skin | Price | Description |
+|------|-------|-------------|
+| Classic | Free | Traditional wood |
+| Ebony | 100 | Polished dark wood |
+| Green | 180 | Green felt cloth |
+| Golden | 250 | Gold leaf with inlays |
+| Marble | 300 | White marble with gray veins |
+| Desert | 350 | Golden Sahara sand at sunset |
+| Travertine | 350 | Natural beige stone |
+| Autumn | 400 | Dry maple leaves on rustic wood |
+| Oceanic | 400 | Deep ocean waters |
+| Sakura | 450 | Cherry blossom petals on light wood |
+| F1 Circuit | 450 | Racing circuit asphalt |
+| Volcanic | 500 | Glowing lava among volcanic rock |
+| Glacial | 500 | Polar ice with crystalline reflections |
+| Toxic | 500 | Radioactive waste with phosphorescent glow |
+| Cosmos | 550 | Nebulas and stars in deep space |
+| Cyberpunk | 600 | Magenta and cyan neon on wet asphalt |
+
+### Available Pieces
+
+| Skin | Price | Description |
+|------|-------|-------------|
+| Classic | Free | Standard plastic |
+| Emerald | 150 | Faceted emerald gems |
+| Ruby | 200 | Faceted rubies |
+| Crystal | 250 | Iridescent transparent crystal |
+| Onyx | 180 | Onyx and quartz stone |
+| Travertine | 220 | Natural travertine stone |
+| Pearl | 300 | Iridescent pearls |
+| Obsidian | 280 | Black volcanic glass |
+| **F1** | **350** | **Formula 1 cars (3D model)** |
+| **Prisma** | **400** | **Prismatic crystal with rainbow effect** |
+
+### Coins (Stripe)
+
+| Pack | Coins | Price |
+|------|-------|-------|
+| Small | 100 | $1.00 |
+| Standard | 500 | $4.00 |
+| Large | 1200 | $9.00 |
+| Premium | 3000 | $20.00 |
+
+---
+
+## Themed Pieces
+
+In addition to classic skins, the game supports themed pieces with real 3D models. `.glb` models are loaded with `useGLTF` from `@react-three/drei`:
+
+```tsx
+import { useGLTF } from '@react-three/drei'
+
+function MyPieceModel({ url }: { url: string }) {
+  const { scene } = useGLTF(url)
+  return <primitive object={scene} scale={0.8} />
+}
+```
+
+Each model is placed in `frontend/public/models/` and referenced from `PIECE_SKINS` in `constants.ts`.
+
+### Available Sets
+
+| Set | Pieces | Price | Description |
+|-----|--------|-------|-------------|
+| **Pokémon** | Pikachu vs Charmander | 500 | CC0 low-poly models |
+| **Mario** | Mario vs Bowser | 500 | Plumber-inspired models |
+| **Zelda** | Link vs Ganon | 500 | Heroes and villains of Hyrule |
+| **Cars** | Muscle vs Sport | 450 | Low-poly cars (Quaternius CC0) |
+| **Space** | Alien vs Astronaut | 550 | Ultimate Space Kit models |
+| **Fantasy** | Dragon vs Wizard | 550 | Low-poly mystical creatures |
+| **Animals** | Dog vs Cat | 400 | 3D pets |
+| **Food** | Pizza vs Donut | 350 | 3D chibi food |
+
+---
+
+## Features
+
+- 🎮 **PvE, Local PvP & Online** — Three game modes
+- 🤖 **AI with Minimax + Alpha-Beta pruning** — 3 difficulty levels
+- 🏆 **Rankings** — Fewest moves/time to win
+- 🎨 **Marketplace** — 26 board and piece skins (coins + Stripe)
+- 🔐 **Auth** — Clerk authentication (login/register)
+- 🏎️ **3D F1 Piece** — Procedurally modeled race car in Three.js
+- 🎵 **Sounds** — Generative effects with Web Audio API
+- 🎲 **3D Board** — Rendered with React Three Fiber (3D and top-down views)
+- 🏗️ **Microservices** — Separate Frontend, Backend, DB and AI
+- 🪙 **Economy** — Virtual coins + real payments with Stripe
+- 📡 **Real-time SSE** — Synchronized online matches
+
+---
+
+## Project Structure
+
+```
+Damas/
+├── frontend/              # TanStack Start (SSR + R3F)
+│   ├── src/
+│   │   ├── routes/               # File-based routing
+│   │   │   ├── __root.tsx        # Root layout (nav, sidebar, mobile)
+│   │   │   ├── index.tsx         # Landing page
+│   │   │   ├── game/route.tsx    # Game layout
+│   │   │   ├── game/index.tsx    # Lobby (mode, difficulty, size)
+│   │   │   ├── game/$gameId.tsx  # Game with 3D board
+│   │   │   ├── auth/login.tsx    # Login (Clerk)
+│   │   │   ├── auth/register.tsx # Register (Clerk)
+│   │   │   ├── rankings.tsx      # Hall of Fame
+│   │   │   └── marketplace.tsx   # Store + coin packs
+│   │   ├── components/game/
+│   │   │   ├── Board3D.tsx       # R3F 3D board + animated pieces + F1
+│   │   │   ├── GameInfo.tsx      # Turn/moves/captures/winner
+│   │   │   └── SoundManager.tsx  # Web Audio API
+│   │   ├── hooks/
+│   │   │   ├── useGame.ts       # Game state machine (PvE + PvP)
+│   │   │   ├── useAI.ts         # AI service client
+│   │   │   └── useOnlineGame.ts # SSE + online matchmaking
+│   │   ├── lib/
+│   │   │   ├── api.ts           # API client (fetch wrappers)
+│   │   │   └── constants.ts     # Skins, colors, constants
+│   │   ├── router.tsx           # TanStack Router
+│   │   ├── routeTree.gen.ts     # Generated route tree
+│   │   ├── start.tsx            # TanStack Start (Clerk middleware)
+│   │   └── styles/app.css       # Tailwind + animations + theme
+│   ├── public/
+│   │   └── favicon.svg          # ♛ Favicon
+│   ├── Dockerfile
+│   ├── vite.config.ts
+│   └── package.json
+├── backend/               # Hono API server
+│   ├── src/
+│   │   ├── index.ts            # Hono app entry + routes
+│   │   ├── game-engine/
+│   │   │   ├── types.ts        # Board, Piece, Player, GameState
+│   │   │   └── rules.ts        # Movement, captures, promotion
+│   │   ├── routes/
+│   │   │   ├── games.ts        # CRUD games + SSE + join
+│   │   │   ├── rankings.ts     # GET /api/rankings
+│   │   │   ├── marketplace.ts  # Items, buy, inventory, equip
+│   │   │   ├── auth.ts         # Clerk webhook + profile
+│   │   │   └── payments.ts     # Stripe packs + checkout + webhook
+│   │   ├── middleware/
+│   │   │   └── auth.ts         # JWT Clerk + dev fallback
+│   │   ├── models/
+│   │   │   └── types.ts        # Document types (Game, User, etc.)
+│   │   └── lib/
+│   │       ├── db.ts           # MongoDB connection + indexes
+│   │       └── response.ts     # Helpers success/error
+│   ├── Dockerfile
+│   └── package.json
+├── ai-service/            # Stateless AI microservice
+│   ├── src/
+│   │   ├── index.ts           # POST /api/ai/move + health
+│   │   ├── types.ts           # Board types + serialize/deserialize
+│   │   ├── board.ts           # Move generation
+│   │   ├── engine.ts          # Minimax + Alpha-Beta pruning
+│   │   └── evaluation.ts      # Heuristic function
+│   ├── Dockerfile
+│   └── package.json
+├── docker-compose.yml
+├── AGENTS.md                  # Project instructions
+├── DESIGN.md                  # UI Design (Stitch)
+├── .env.example               # Environment variables
+├── Damas.prd                  # Original PRD
+└── README.md
+```
+
+## Technical Note: A* vs Minimax
+
+The original PRD mentions A*, but for turn-based adversarial games (like Checkers), the standard and most efficient algorithm is **Minimax with Alpha-Beta pruning**. A* is designed for single-agent pathfinding. Minimax evaluates the game tree considering the opponent's responses, which is exactly what a Checkers engine needs.
+
+### Implementation Details
+
+The AI is in `ai-service/src/engine.ts` and includes:
+
+| Component | File | Description |
+|-----------|------|-------------|
+| **Minimax** | `engine.ts:42` | Game tree with configurable depth per difficulty |
+| **Alpha-Beta Pruning** | `engine.ts:77,88` | Prunes unpromising branches (α = best for maximizer, β = best for minimizer) |
+| **Move ordering** | `engine.ts:25` | Captures and promotions first for more efficient pruning |
+| **Transposition table** | `engine.ts:12` | Memoization of already evaluated states to avoid recomputation |
+| **Heuristic function** | `evaluation.ts` | Evaluates material, position, king safety and potential captures |
+| **Difficulties** | `engine.ts:5-9` | Easy (2 ply), Medium (4 ply), Hard (6 ply) |
